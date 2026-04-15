@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>숭실대 정보과학대학원 54기</title>
+    <meta
+      name="description"
+      content="숭실대 정보과학대학원 54기 동기들이 만든 웹사이트를 소개하는 페이지"
+    />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: rgba(12, 18, 38, 0.72);
+        --panel-2: rgba(12, 18, 38, 0.56);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.72);
+        --line: rgba(255, 255, 255, 0.14);
+        --accent: #7dd3fc;
+        --accent-2: #a78bfa;
+        --shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+        background: transparent;
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: var(--bg);
+      }
+
+      .bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            1200px 700px at 20% 10%,
+            rgba(125, 211, 252, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 80% 20%,
+            rgba(167, 139, 250, 0.18),
+            transparent 55%
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(9, 14, 30, 0.2),
+            rgba(9, 14, 30, 0.72)
+          );
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .bg-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transition: opacity 900ms ease;
+        filter: saturate(1.05) contrast(1.05);
+        transform: scale(1.04);
+      }
+
+      .bg-slide.is-active {
+        opacity: 1;
+      }
+
+      .bg-vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            900px 520px at 50% 10%,
+            rgba(0, 0, 0, 0.28),
+            transparent 60%
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.12),
+            rgba(0, 0, 0, 0.68)
+          );
+        pointer-events: none;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 44px 18px 60px;
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 22px 22px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .title h1 {
+        margin: 0;
+        font-size: clamp(22px, 3.5vw, 34px);
+        letter-spacing: -0.02em;
+      }
+
+      .title p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .hint {
+        flex: 0 0 auto;
+        display: grid;
+        gap: 8px;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .hint .badge {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        box-shadow: 0 0 0 4px rgba(125, 211, 252, 0.12);
+      }
+
+      .hint small {
+        color: var(--muted);
+      }
+
+      .kakao {
+        margin-top: 14px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel-2);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .kakao .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .kakao h2 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: -0.01em;
+      }
+
+      .kakao p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 13px;
+      }
+
+      .kakao .cta {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(125, 211, 252, 0.35);
+        background: rgba(125, 211, 252, 0.12);
+        color: rgba(255, 255, 255, 0.92);
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .kakao .cta small {
+        font-weight: 700;
+        opacity: 0.85;
+      }
+
+      main {
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel-2);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: -0.01em;
+      }
+
+      .section-head .sub {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 14px;
+        padding: 18px;
+      }
+
+      .card {
+        grid-column: span 6;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 14px;
+        transition: transform 140ms ease, border-color 140ms ease,
+          background 140ms ease;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(125, 211, 252, 0.35);
+        background: rgba(0, 0, 0, 0.26);
+      }
+
+      .card button {
+        width: 100%;
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .card p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+        font-size: 13px;
+      }
+
+      @media (max-width: 760px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .card {
+          grid-column: span 12;
+        }
+      }
+
+      /* modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        padding: 18px;
+        z-index: 50;
+      }
+
+      .modal.is-open {
+        display: grid;
+      }
+
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+      }
+
+      .modal-panel {
+        position: relative;
+        width: min(820px, 100%);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(12, 18, 38, 0.88);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .modal-title {
+        display: grid;
+        gap: 4px;
+      }
+
+      .modal-title strong {
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+
+      .modal-title small {
+        color: var(--muted);
+      }
+
+      .icon-btn {
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.18);
+        color: rgba(255, 255, 255, 0.86);
+        border-radius: 12px;
+        padding: 10px 12px;
+        cursor: pointer;
+      }
+
+      .modal-body {
+        padding: 16px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .group {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.18);
+        overflow: hidden;
+      }
+
+      .group-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .group-head h3 {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: -0.01em;
+      }
+
+      .links {
+        list-style: none;
+        margin: 0;
+        padding: 10px 12px 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .link-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .link-meta {
+        display: grid;
+        gap: 4px;
+      }
+
+      .link-meta strong {
+        font-size: 13px;
+        letter-spacing: -0.01em;
+      }
+
+      .link-meta small {
+        color: var(--muted);
+        font-size: 12px;
+        word-break: break-all;
+      }
+
+      .open {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(125, 211, 252, 0.35);
+        background: rgba(125, 211, 252, 0.12);
+        color: rgba(255, 255, 255, 0.92);
+        text-decoration: none;
+        white-space: nowrap;
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      .empty {
+        padding: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .kbd {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        border-bottom-color: rgba(255, 255, 255, 0.22);
+        padding: 2px 8px;
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.82);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true" id="bg">
+      <div class="bg-slide is-active" data-bg="0"></div>
+      <div class="bg-slide" data-bg="1"></div>
+      <div class="bg-slide" data-bg="2"></div>
+      <div class="bg-slide" data-bg="3"></div>
+      <div class="bg-vignette"></div>
+    </div>
+
+    <div class="wrap">
+      <header>
+        <div class="title">
+          <h1>숭실대 정보과학대학원 54기</h1>
+          <p>
+            동기들이 만들어둔 웹사이트를 모아 소개합니다. <b>이름을 클릭</b>하면
+            관련 링크를 팝업으로 확인할 수 있어요.
+          </p>
+        </div>
+        <div class="hint" role="note" aria-label="사용 방법">
+          <div class="badge"><span class="dot"></span> 링크는 새창으로 열림</div>
+          <small>팝업 닫기: <span class="kbd">Esc</span> 또는 바깥 클릭</small>
+        </div>
+      </header>
+
+      <section class="kakao" aria-label="카카오톡 동기방">
+        <div class="row">
+          <div>
+            <h2>카톡방: “개판오분전”</h2>
+            <p>
+              뜻: “개발자들에게 판을 깔아줄테니 퇴근 오분전까지 수다떨자”
+            </p>
+          </div>
+          <a
+            class="cta"
+            href="https://invite.kakao.com/tc/tC6tZmr6uY"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="개판오분전 카톡방 초대링크 새창으로 열기"
+          >
+            초대링크 열기 <small>(새창)</small>
+          </a>
+        </div>
+      </section>
+
+      <main>
+        <div class="section-head">
+          <div>
+            <h2>동기 웹사이트 모음</h2>
+            <p class="sub">회사 홈페이지 / 제작한 사이트 소개로 나눠서 보여줘요.</p>
+          </div>
+          <p class="sub" id="bgStatus" aria-live="polite"></p>
+        </div>
+
+        <div class="grid" id="grid" aria-label="동기 목록">
+          <div class="card">
+            <button type="button" data-person="kim-bonggyun">
+              <div class="card-top">
+                <div class="name">김봉균</div>
+                <div class="pill">클릭해서 링크 보기</div>
+              </div>
+              <p>회사 홈페이지 및 제작물 링크를 팝업에서 확인할 수 있어요.</p>
+            </button>
+          </div>
+
+          <div class="card">
+            <button type="button" data-person="lee-sangmin">
+              <div class="card-top">
+                <div class="name">이상민</div>
+                <div class="pill">클릭해서 링크 보기</div>
+              </div>
+              <p>회사 홈페이지 및 제작물 링크를 팝업에서 확인할 수 있어요.</p>
+            </button>
+          </div>
+
+          <div class="card">
+            <button type="button" data-person="jung-yongwoo">
+              <div class="card-top">
+                <div class="name">정용우</div>
+                <div class="pill">클릭해서 링크 보기</div>
+              </div>
+              <p>제작한 사이트 소개 링크를 팝업에서 확인할 수 있어요.</p>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal" id="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="1"></div>
+      <div
+        class="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalName"
+      >
+        <div class="modal-head">
+          <div class="modal-title">
+            <strong id="modalName">이름</strong>
+            <small id="modalDesc">관련 사이트 링크</small>
+          </div>
+          <button class="icon-btn" type="button" data-close="1">닫기</button>
+        </div>
+        <div class="modal-body">
+          <section class="group" aria-label="회사 홈페이지">
+            <div class="group-head">
+              <h3>회사 홈페이지</h3>
+            </div>
+            <ul class="links" id="companyLinks"></ul>
+            <div class="empty" id="companyEmpty" hidden>등록된 링크가 없습니다.</div>
+          </section>
+
+          <section class="group" aria-label="제작한 사이트 소개">
+            <div class="group-head">
+              <h3>제작한 사이트 소개</h3>
+            </div>
+            <ul class="links" id="projectLinks"></ul>
+            <div class="empty" id="projectEmpty" hidden>
+              아직 등록된 링크가 없습니다. (추가 제공해주면 바로 반영 가능)
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const BG_IMAGES = [
+        "images/MT1.jpg",
+        "images/MT2.jpg",
+        "images/MT3.jpg",
+        "images/MT4.jpg",
+      ];
+
+      const PEOPLE = {
+        "kim-bonggyun": {
+          name: "김봉균",
+          company: [
+            {
+              label: "P-CITY",
+              url: "https://www.p-city.com",
+              hint: "회사 홈페이지",
+            },
+          ],
+          projects: [],
+        },
+        "lee-sangmin": {
+          name: "이상민",
+          company: [
+            {
+              label: "We've Solutions | Founding Story",
+              url: "https://www.wevesolutions.co.kr/founding-story",
+              hint: "회사 홈페이지",
+            },
+          ],
+          projects: [],
+        },
+        "jung-yongwoo": {
+          name: "정용우",
+          company: [],
+          projects: [
+            { label: "biolin.kr", url: "https://biolin.kr/", hint: "제작한 사이트" },
+            {
+              label: "Searchify 소개",
+              url: "https://searchify.fuzziee.com/introduction",
+              hint: "제작한 사이트",
+            },
+            {
+              label: "Remote Skills",
+              url: "https://rskills.cokplay.com/",
+              hint: "제작한 사이트",
+            },
+          ],
+        },
+      };
+
+      function setBgImages() {
+        const slides = Array.from(document.querySelectorAll(".bg-slide"));
+        slides.forEach((el, i) => {
+          const path = BG_IMAGES[i];
+          const safePath = encodeURI(path);
+          el.style.backgroundImage = `url('${safePath}')`;
+        });
+      }
+
+      function startBgRotation() {
+        const slides = Array.from(document.querySelectorAll(".bg-slide"));
+        const status = document.getElementById("bgStatus");
+        let idx = 0;
+
+        function apply(next) {
+          slides.forEach((s, i) => s.classList.toggle("is-active", i === next));
+          idx = next;
+          if (status) status.textContent = `배경 ${idx + 1} / ${slides.length}`;
+        }
+
+        apply(0);
+        window.setInterval(() => apply((idx + 1) % slides.length), 7000);
+      }
+
+      function normalizeUrl(url) {
+        const trimmed = String(url || "").trim();
+        if (!trimmed) return "";
+        if (/^https?:\/\//i.test(trimmed)) return trimmed;
+        return `https://${trimmed}`;
+      }
+
+      function el(tag, attrs = {}, children = []) {
+        const node = document.createElement(tag);
+        Object.entries(attrs).forEach(([k, v]) => {
+          if (k === "class") node.className = v;
+          else if (k === "text") node.textContent = v;
+          else node.setAttribute(k, v);
+        });
+        for (const c of children) node.appendChild(c);
+        return node;
+      }
+
+      function renderLinks(listEl, emptyEl, links) {
+        listEl.innerHTML = "";
+        const has = Array.isArray(links) && links.length > 0;
+        emptyEl.hidden = has;
+        if (!has) return;
+
+        for (const link of links) {
+          const url = normalizeUrl(link.url);
+          const item = el("li", { class: "link-item" }, [
+            el("div", { class: "link-meta" }, [
+              el("strong", { text: link.label || "링크" }),
+              el("small", { text: url }),
+            ]),
+            el("a", {
+              class: "open",
+              href: url,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              "aria-label": `${link.label || "링크"} 새창으로 열기`,
+            }, [document.createTextNode("새창 열기")]),
+          ]);
+          listEl.appendChild(item);
+        }
+      }
+
+      const modal = document.getElementById("modal");
+      const modalName = document.getElementById("modalName");
+      const modalDesc = document.getElementById("modalDesc");
+      const companyLinks = document.getElementById("companyLinks");
+      const projectLinks = document.getElementById("projectLinks");
+      const companyEmpty = document.getElementById("companyEmpty");
+      const projectEmpty = document.getElementById("projectEmpty");
+
+      let lastFocus = null;
+
+      function openModal(personId) {
+        const person = PEOPLE[personId];
+        if (!person) return;
+
+        lastFocus = document.activeElement;
+        modalName.textContent = person.name;
+        modalDesc.textContent = "관련 사이트 링크";
+
+        renderLinks(companyLinks, companyEmpty, person.company);
+        renderLinks(projectLinks, projectEmpty, person.projects);
+
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+
+        const closeBtn = modal.querySelector('button[data-close="1"]');
+        closeBtn && closeBtn.focus();
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+        lastFocus = null;
+      }
+
+      document.getElementById("grid").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-person]");
+        if (!btn) return;
+        openModal(btn.getAttribute("data-person"));
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target && e.target.getAttribute("data-close") === "1") closeModal();
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+      });
+
+      setBgImages();
+      startBgRotation();
+    </script>
+  </body>
+</html>
+
